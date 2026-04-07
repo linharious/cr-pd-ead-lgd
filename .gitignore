@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+*.csv
+*.xlsx
+.ipynb_checkpoints/

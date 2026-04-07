@@ -19,6 +19,37 @@ Place the following files in `in/`:
 - `loan_data.csv` — historical loan data used for training
 - `loan_data_new.csv` — new period data used for monitoring
 
+## Setup Before Running
+
+### 1. Create the required folders
+
+Create the following directory structure in your project root:
+project/
+├── in/
+└── out/
+├── pd/
+├── prepr/
+├── monitor/
+├── lgd_ead/
+└── el/
+
+You can do this in one command:
+```bash
+mkdir -p in out/pd out/prepr out/monitor out/lgd_ead out/el
+```
+
+### 2. Download the input data
+
+Download the two CSV files and place them in the `in/` folder:
+
+- [`loan_data.csv`](https://drive.google.com/file/d/1jRY-0Ef_rZNbckqImtnD0vzx9axB9PDx/view?usp=share_link) — historical loan data for training
+- [`loan_data_new.csv`](https://drive.google.com/file/d/12Pz0ff_3ACEkKL_PTsbsJCB3O2Ee_SGL/view?usp=share_link) — new period data for monitoring
+
+After downloading, your `in/` folder should look like:
+in/
+├── loan_data.csv
+└── loan_data_new.csv
+
 ## Order of the Running 
 
 Run each module in order:

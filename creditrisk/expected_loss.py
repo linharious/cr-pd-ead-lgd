@@ -73,8 +73,8 @@ def compute_expected_loss(
     -------
     funded_amnt, PD, LGD, EAD, CCF, EL
     """
-    from lgd_ead import select_lgd_ead_features
-    from pd_model import select_features
+    from .lgd_ead import select_lgd_ead_features
+    from .pd_model import select_features
 
     os.makedirs(out_dir, exist_ok=True)
 
@@ -164,9 +164,9 @@ def compute_expected_loss(
 
 
 if __name__ == '__main__':
-    from preprocessing import load_and_split, fit_transform, transform
-    from pd_model import fit_pd_model
-    from lgd_ead import load_and_prepare, fit_lgd_ead
+    from .preprocessing import load_and_split, fit_transform, transform
+    from .pd_model import fit_pd_model
+    from .lgd_ead import load_and_prepare, fit_lgd_ead
 
     os.makedirs('out/el', exist_ok=True)
 

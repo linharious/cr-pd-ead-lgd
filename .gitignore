@@ -9,3 +9,15 @@ __pycache__/
 *.csv
 *.xlsx
 .ipynb_checkpoints/
+
+# Data, outputs, and trained model artifacts
+in/
+out/
+models/
+
+# Packaging
+*.egg-info/
+build/
+dist/
+
+.venv/

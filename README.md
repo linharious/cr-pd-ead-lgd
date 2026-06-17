@@ -50,19 +50,49 @@ in/
 ├── loan_data.csv
 └── loan_data_new.csv
 
-## Order of the Running 
+## Project layout
 
-Run each module in order:
+The modelling code is now an importable package:
 
-```bash
-python preprocessing.py
-python pd_model.py
-python lgd_ead.py
-python expected_loss.py
-python monitoring.py
+```
+creditrisk/   # preprocessing, pd_model, lgd_ead, expected_loss, monitoring
+training/     # train.py — fits models and saves an artifact bundle
+models/       # generated: model_bundle.joblib + manifest.json per version
 ```
 
-Each script is standalone and writes outputs to the `out/` directory.
+Install it once (editable):
+
+```bash
+pip install -e .
+```
+
+## Training
+
+Fit all models and save a reusable bundle under `models/<version>/`:
+
+```bash
+python training/train.py --data in/loan_data.csv
+```
+
+Load it back for scoring:
+
+```python
+from creditrisk.artifacts import load_bundle, score_pd
+bundle, meta = load_bundle()          # latest version
+scores = score_pd(bundle, raw_applicant_df)
+```
+
+## Running the stages individually
+
+Each module is still standalone and writes outputs to `out/`:
+
+```bash
+python -m creditrisk.preprocessing
+python -m creditrisk.pd_model
+python -m creditrisk.lgd_ead
+python -m creditrisk.expected_loss
+python -m creditrisk.monitoring
+```
 
 ## Outputs
 

@@ -1,0 +1,10 @@
+# creditrisk package (Phase 1) runtime dependencies
+pandas
+numpy
+scikit-learn
+scipy
+matplotlib
+seaborn
+joblib
+
+# Web app dependencies (fastapi, mangum, jinja2, boto3, ...) are added in Phase 2.

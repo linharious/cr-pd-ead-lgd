@@ -76,7 +76,7 @@ def preprocess_new_data(csv_path, reference_date, expected_cols):
     X : preprocessed feature DataFrame
     y : good_bad Series
     """
-    from preprocessing import (general_preprocessing, make_dummies,
+    from .preprocessing import (general_preprocessing, make_dummies,
                                 fill_missing, create_good_bad,
                                 apply_feature_engineering, align_columns)
 
@@ -325,7 +325,7 @@ def psi_from_csvs(
 
 
 if __name__ == '__main__':
-    from preprocessing import load_and_split, fit_preprocessor, transform
+    from .preprocessing import load_and_split, fit_preprocessor, transform
 
     os.makedirs('out/monitor', exist_ok=True)
 

@@ -7,4 +7,11 @@ matplotlib
 seaborn
 joblib
 
-# Web app dependencies (fastapi, mangum, jinja2, boto3, ...) are added in Phase 2.
+# Web app (Phase 2)
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart
+mangum
+
+# boto3 (S3 presigned upload/download) is added in Phase 4.

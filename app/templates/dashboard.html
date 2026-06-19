@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Credit Risk Studio{% endblock %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <p class="sub">Local development build &middot; Phase 2</p>
+
+  {% if meta %}
+    <div class="cards">
+      <div class="card"><div class="label">Model status</div><div class="value status-ok">Loaded</div></div>
+      <div class="card"><div class="label">PD AUROC</div><div class="value">{{ meta.pd_auroc }}</div></div>
+      <div class="card"><div class="label">PD Gini</div><div class="value">{{ meta.pd_gini }}</div></div>
+      <div class="card"><div class="label">PD KS</div><div class="value">{{ meta.pd_ks }}</div></div>
+    </div>
+    <div class="panel">
+      <p>Version <code>{{ meta.version }}</code>, trained {{ meta.created_at }}.</p>
+      <p>{{ meta.n_pd_features }} PD features &middot; {{ meta.n_lgd_features }} LGD features.</p>
+      <p style="margin-bottom:0"><a href="/score">Score an applicant &rarr;</a></p>
+    </div>
+  {% else %}
+    <div class="panel">
+      <p class="status-no">No trained model found.</p>
+      <p>Create one, then restart the app:</p>
+      <pre><code>python training/train.py --data in/loan_data.csv</code></pre>
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% if error %}
+  <div class="error">{{ error }}</div>
+{% else %}
+  <div class="result-card">
+    <div class="result-head">
+      <div>
+        <div class="score-big">{{ credit_score }}</div>
+        <span class="badge">{{ band }}</span>
+      </div>
+      <div class="decision {{ 'ok' if approve else 'no' }}">{{ decision }}</div>
+    </div>
+    <div class="metric-row">
+      <div class="m"><div class="v">{{ pd_pct }}%</div><div class="k">Probability of default</div></div>
+      <div class="m"><div class="v">{{ credit_score }}</div><div class="k">Credit score (300&ndash;850)</div></div>
+      <div class="m"><div class="v">{{ cutoff }}</div><div class="k">Approval cutoff</div></div>
+    </div>
+  </div>
+{% endif %}

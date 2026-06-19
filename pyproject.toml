@@ -18,7 +18,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "httpx"]
+web = ["fastapi", "uvicorn[standard]", "jinja2", "python-multipart", "mangum"]
 
-[tool.setuptools]
-packages = ["creditrisk", "training"]
+[tool.setuptools.packages.find]
+include = ["creditrisk*", "training*", "app*"]

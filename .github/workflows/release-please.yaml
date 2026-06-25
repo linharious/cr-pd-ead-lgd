@@ -1,0 +1,94 @@
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # On a new release: build, Xray-scan and push the image to ECR, then tell the
+  # infra repo which tag to deploy.
+  build-and-push:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      AWS_REGION: ca-central-1
+      ECR_REPO: cc-credit-risk
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - name: Resolve version (strip leading v)
+        id: ver
+        env:
+          TAG: ${{ needs.release-please.outputs.tag_name }}
+        run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      # NOTE: this role needs ECR push permissions (ecr:GetAuthorizationToken,
+      # BatchCheckLayerAvailability, PutImage, Upload*) and its OIDC trust must
+      # include this repo.
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::987213268383:role/aws-tf-gha-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: https://jfrogcfv.jfrog.io
+        with:
+          oidc-provider-name: github-jfrog
+          oidc-audience: test
+
+      - name: Build image
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: docker build -t "$REGISTRY/$ECR_REPO:$VERSION" -t "$REGISTRY/$ECR_REPO:latest" .
+
+      - name: Xray scan
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: jf docker scan "$REGISTRY/$ECR_REPO:$VERSION"
+
+      - name: Push image
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          docker push "$REGISTRY/$ECR_REPO:$VERSION"
+          docker push "$REGISTRY/$ECR_REPO:latest"
+
+      # Hand the version to the infra repo to deploy. Needs a PAT/app token with
+      # repo scope on the infra repo (GITHUB_TOKEN can't dispatch across repos).
+      - name: Trigger infra deploy
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.INFRA_DISPATCH_TOKEN }}
+          repository: OWNER/aws-tf-github-action
+          event-type: app-image-published
+          client-payload: '{"image_tag": "${{ steps.ver.outputs.version }}"}'

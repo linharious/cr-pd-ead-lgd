@@ -7,13 +7,20 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from .deps import BASE_DIR
-from .routers import calculate, pages
+from .routers import (
+    batch, calculate, downloads, monitoring, pages, performance, portfolio,
+)
 
 app = FastAPI(title="Credit Risk Studio")
 
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 app.include_router(pages.router)
 app.include_router(calculate.router)
+app.include_router(batch.router)
+app.include_router(portfolio.router)
+app.include_router(performance.router)
+app.include_router(monitoring.router)
+app.include_router(downloads.router)
 
 
 @app.get("/healthz")

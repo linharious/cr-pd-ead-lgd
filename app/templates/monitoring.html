@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Monitoring · Credit Risk Studio{% endblock %}
+{% block content %}
+  <h1>Monitoring (PSI)</h1>
+  <p class="sub">Population Stability Index — feature drift vs the training period.</p>
+
+  {% if psi %}
+    <div class="cards">
+      <div class="card"><div class="label">Overall status</div><div class="value">{{ psi.status }}</div></div>
+      <div class="card"><div class="label">Score PSI</div><div class="value">{{ psi.score_psi }}</div></div>
+      <div class="card"><div class="label">Checked</div><div class="value" style="font-size:14px">{{ psi.created_at }}</div></div>
+    </div>
+    <div class="panel">
+      <table class="tbl">
+        <thead><tr><th>Feature</th><th>PSI</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for f in psi.features %}
+            <tr><td>{{ f.feature }}</td><td>{{ f.psi }}</td>
+                <td><span class="pill {{ f.css }}">{{ f.status }}</span></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p class="sub" style="margin-top:10px">Stable &lt; 0.10 &middot; Monitor 0.10&ndash;0.25 &middot; Investigate &gt; 0.25</p>
+    </div>
+  {% else %}
+    <div class="panel">
+      <p class="status-no">No monitoring run yet.</p>
+      <p>Generate a PSI report (needs new-period data):</p>
+      <pre><code>python training/monitor.py --train in/loan_data.csv --new in/loan_data_new.csv</code></pre>
+      <p class="sub">In production this runs as a scheduled job writing the report to S3.</p>
+    </div>
+  {% endif %}
+{% endblock %}

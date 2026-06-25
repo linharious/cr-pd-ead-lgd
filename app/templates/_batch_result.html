@@ -1,0 +1,20 @@
+{% if error %}
+  <div class="error">{{ error }}</div>
+{% else %}
+  <div class="result-card">
+    <div class="metric-row">
+      <div class="m"><div class="v">{{ n }}</div><div class="k">Rows scored</div></div>
+      <div class="m"><div class="v">{{ approve }}</div><div class="k">Approve</div></div>
+      <div class="m"><div class="v">{{ decline }}</div><div class="k">Decline</div></div>
+      <div class="m"><div class="v">${{ "{:,.0f}".format(total_el) }}</div><div class="k">Total expected loss</div></div>
+    </div>
+    <p style="margin-top:14px"><a href="/download/{{ name }}">Download results &mdash; {{ name }}</a></p>
+    <table class="tbl">
+      <thead><tr>{% for c in cols %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for row in preview %}<tr>{% for c in cols %}<td>{{ row[c] }}</td>{% endfor %}</tr>{% endfor %}
+      </tbody>
+    </table>
+    <p class="sub" style="margin-top:8px">Showing first {{ preview|length }} of {{ n }} rows.</p>
+  </div>
+{% endif %}

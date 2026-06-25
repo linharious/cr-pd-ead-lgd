@@ -1,0 +1,14 @@
+# Runtime dependencies baked into the Lambda container image.
+# Excludes uvicorn/watchfiles/etc. (local-only) to keep the image small.
+fastapi
+mangum
+jinja2
+python-multipart
+boto3
+pandas
+numpy
+scikit-learn
+scipy
+joblib
+matplotlib
+seaborn

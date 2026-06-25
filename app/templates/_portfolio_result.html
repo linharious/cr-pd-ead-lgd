@@ -1,0 +1,26 @@
+{% if error %}
+  <div class="error">{{ error }}</div>
+{% else %}
+  <div class="result-card">
+    <div class="cards">
+      <div class="card"><div class="label">Total expected loss</div><div class="value">${{ "{:,.0f}".format(summary.total_el) }}</div></div>
+      <div class="card"><div class="label">EL / funded</div><div class="value">{{ summary.el_ratio }}%</div></div>
+      <div class="card"><div class="label">Loans</div><div class="value">{{ "{:,}".format(summary.n) }}</div></div>
+      <div class="card"><div class="label">Mean PD</div><div class="value">{{ summary.mean_pd }}%</div></div>
+      <div class="card"><div class="label">Mean LGD</div><div class="value">{{ summary.mean_lgd }}%</div></div>
+    </div>
+
+    <p style="margin-top:6px"><a href="/download/{{ name }}">Download per-loan EL &mdash; {{ name }}</a></p>
+
+    <div class="panel-title" style="margin-top:14px">Expected loss by {{ summary.segment_label }}</div>
+    <table class="tbl">
+      <thead><tr><th>{{ summary.segment_label }}</th><th>Loans</th><th>Total EL</th><th>EL / funded</th><th>Mean PD</th></tr></thead>
+      <tbody>
+        {% for r in summary.by_segment %}
+          <tr><td>{{ r.segment }}</td><td>{{ "{:,}".format(r.n) }}</td>
+              <td>${{ "{:,.0f}".format(r.el) }}</td><td>{{ r.el_ratio }}%</td><td>{{ r.mean_pd }}%</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

@@ -1,0 +1,17 @@
+.git
+.github
+.venv
+tests
+models
+in
+out
+__pycache__
+*.pyc
+*.egg-info
+build
+dist
+*.md
+*.pdf
+.gitignore
+pyproject.toml
+requirements.txt

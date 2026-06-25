@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Portfolio · Credit Risk Studio{% endblock %}
+{% block content %}
+  <h1>Portfolio &amp; Expected Loss</h1>
+  <p class="sub">Upload a loan portfolio CSV to compute Expected Loss (EL = PD &times; LGD &times; EAD) and break it down by segment.</p>
+
+  <div class="panel">
+    <form hx-post="/portfolio" hx-target="#result" hx-swap="innerHTML"
+          hx-encoding="multipart/form-data" hx-indicator="#spin">
+      <div class="grid">
+        <div><label>Portfolio CSV</label><input type="file" name="file" accept=".csv" required></div>
+        <div><label>Segment by</label>
+          <select name="segment">
+            {% for key, label in segments.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <button type="submit">Compute Expected Loss <span id="spin" class="htmx-indicator">…</span></button>
+    </form>
+
+    <div id="result" class="result"></div>
+  </div>
+{% endblock %}

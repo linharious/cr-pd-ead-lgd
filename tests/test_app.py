@@ -7,6 +7,7 @@ deterministically. Needs the web extras: pip install -e ".[web,dev]".
 import os
 
 os.environ["MODELS_DIR"] = "models__nonexistent__"
+os.environ["STORAGE_DIR"] = "out__nonexistent_store__"
 
 from fastapi.testclient import TestClient  # noqa: E402
 
@@ -42,3 +43,41 @@ def test_calculate_without_model():
     r = client.post("/calculate", data=FORM)
     assert r.status_code == 200
     assert "No trained model" in r.text
+
+
+def test_batch_page_renders():
+    r = client.get("/batch")
+    assert r.status_code == 200
+    assert "Batch scoring" in r.text
+
+
+def test_downloads_page_renders():
+    r = client.get("/downloads")
+    assert r.status_code == 200
+    assert "Downloads" in r.text
+
+
+def test_batch_without_model():
+    files = {"file": ("a.csv", b"funded_amnt,annual_inc\n10000,60000\n", "text/csv")}
+    r = client.post("/batch", files=files)
+    assert r.status_code == 200
+    assert "No trained model" in r.text
+
+
+def test_performance_page_renders():
+    r = client.get("/performance")
+    assert r.status_code == 200
+    assert "Model performance" in r.text
+
+
+def test_monitoring_page_renders():
+    r = client.get("/monitoring")
+    assert r.status_code == 200
+    assert "Monitoring" in r.text
+
+
+def test_portfolio_page_renders():
+    r = client.get("/portfolio")
+    assert r.status_code == 200
+    assert "Expected Loss" in r.text
+

@@ -1,7 +1,6 @@
-# macOS
+
 .DS_Store
 
-# Python cache
 __pycache__/
 *.pyc
 *.pyo
@@ -10,14 +9,16 @@ __pycache__/
 *.xlsx
 .ipynb_checkpoints/
 
-# Data, outputs, and trained model artifacts
 in/
 out/
 models/
 
-# Packaging
 *.egg-info/
 build/
 dist/
 
 .venv/
+.venv*/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

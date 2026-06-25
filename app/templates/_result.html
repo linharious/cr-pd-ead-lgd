@@ -14,5 +14,22 @@
       <div class="m"><div class="v">{{ credit_score }}</div><div class="k">Credit score (300&ndash;850)</div></div>
       <div class="m"><div class="v">{{ cutoff }}</div><div class="k">Approval cutoff</div></div>
     </div>
+
+    <div class="metric-row">
+      <div class="m"><div class="v">{{ lgd_pct }}%</div><div class="k">Loss given default</div></div>
+      <div class="m"><div class="v">${{ "{:,.0f}".format(ead) }}</div><div class="k">Exposure at default</div></div>
+      <div class="m"><div class="v">${{ "{:,.0f}".format(el) }}</div><div class="k">Expected loss</div></div>
+    </div>
+
+    {% if reasons %}
+      <div class="reasons">
+        <div class="reasons-title">Top factors lowering the score</div>
+        <ul>
+          {% for r in reasons %}
+            <li><span>{{ r.feature }}</span><span class="pts">&minus;{{ r.points }} pts</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
   </div>
 {% endif %}

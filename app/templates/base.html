@@ -14,8 +14,11 @@
       <nav>
         <a href="/" class="nav-link{% if active == 'dashboard' %} active{% endif %}">Dashboard</a>
         <a href="/score" class="nav-link{% if active == 'score' %} active{% endif %}">Score an applicant</a>
-        <span class="nav-link disabled">Batch scoring <span class="soon">soon</span></span>
-        <span class="nav-link disabled">Downloads <span class="soon">soon</span></span>
+        <a href="/batch" class="nav-link{% if active == 'batch' %} active{% endif %}">Batch scoring</a>
+        <a href="/portfolio" class="nav-link{% if active == 'portfolio' %} active{% endif %}">Portfolio &amp; EL</a>
+        <a href="/performance" class="nav-link{% if active == 'performance' %} active{% endif %}">Model performance</a>
+        <a href="/monitoring" class="nav-link{% if active == 'monitoring' %} active{% endif %}">Monitoring</a>
+        <a href="/downloads" class="nav-link{% if active == 'downloads' %} active{% endif %}">Downloads</a>
       </nav>
     </aside>
     <main class="content">

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Performance · Credit Risk Studio{% endblock %}
+{% block content %}
+  <h1>Model performance</h1>
+  <p class="sub">Probability-of-default model evaluation (held-out test set, computed at training time).</p>
+
+  {% if meta %}
+    <div class="cards">
+      <div class="card"><div class="label">AUROC</div><div class="value">{{ meta.pd_auroc }}</div></div>
+      <div class="card"><div class="label">Gini</div><div class="value">{{ meta.pd_gini }}</div></div>
+      <div class="card"><div class="label">KS</div><div class="value">{{ meta.pd_ks }}</div></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">ROC curve</div>
+      {% if roc %}
+        <svg viewBox="0 0 {{ chart_w }} {{ chart_h }}" class="chart" role="img" aria-label="ROC curve">
+          <line x1="{{ pad }}" y1="{{ chart_h - pad }}" x2="{{ chart_w - pad }}" y2="{{ pad }}" class="diag"/>
+          <line x1="{{ pad }}" y1="{{ pad }}" x2="{{ pad }}" y2="{{ chart_h - pad }}" class="axis"/>
+          <line x1="{{ pad }}" y1="{{ chart_h - pad }}" x2="{{ chart_w - pad }}" y2="{{ chart_h - pad }}" class="axis"/>
+          <polyline points="{{ roc }}" class="roc"/>
+          <text x="{{ (chart_w / 2)|int }}" y="{{ chart_h - 8 }}" class="lbl">False positive rate &rarr;</text>
+        </svg>
+      {% else %}
+        <p class="sub">Retrain to generate the ROC curve (this model has no cutoffs table).</p>
+      {% endif %}
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Cutoff simulator</div>
+      {% if at %}
+        <p class="sub">Pick a score cutoff to see the resulting approval / rejection rate.</p>
+        <input type="range" min="300" max="850" step="5" value="{{ cutoff }}" name="score"
+               hx-get="/performance/cutoff" hx-target="#cutoff" hx-trigger="input changed delay:150ms">
+        <div id="cutoff">{% include "_cutoff.html" %}</div>
+      {% else %}
+        <p class="sub">Retrain to enable the cutoff simulator.</p>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="panel"><p class="status-no">No trained model found.</p></div>
+  {% endif %}
+{% endblock %}

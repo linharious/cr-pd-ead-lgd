@@ -13,5 +13,6 @@ uvicorn[standard]
 jinja2
 python-multipart
 mangum
+boto3
 
-# boto3 (S3 presigned upload/download) is added in Phase 4.
+# boto3 also powers S3 presigned upload/download in Phase 4.

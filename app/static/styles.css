@@ -69,6 +69,32 @@ button:hover{opacity:.92}
 .metric-row .v{font-size:20px; font-weight:600}
 .metric-row .k{font-size:12px; color:var(--muted)}
 
+.tbl{width:100%; border-collapse:collapse; margin-top:14px; font-size:13px}
+.tbl th,.tbl td{text-align:left; padding:7px 10px; border-bottom:1px solid var(--line)}
+.tbl th{color:var(--muted); font-weight:500}
+input[type=file]{padding:7px 10px; height:auto}
+input[type=range]{width:100%; accent-color:var(--accent)}
+
+.panel + .panel{margin-top:16px}
+.panel-title{font-weight:500; margin-bottom:10px}
+
+.reasons{margin-top:18px; border-top:1px solid var(--line); padding-top:14px}
+.reasons-title{font-size:13px; color:var(--muted); margin-bottom:8px}
+.reasons ul{list-style:none; margin:0; padding:0}
+.reasons li{display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--line); font-size:14px}
+.reasons .pts{color:var(--danger); font-weight:500}
+
+.chart{width:100%; max-width:440px; height:auto}
+.chart .axis{stroke:var(--muted); stroke-width:1}
+.chart .diag{stroke:var(--line); stroke-width:1; stroke-dasharray:4 3}
+.chart .roc{fill:none; stroke:var(--accent); stroke-width:2}
+.chart .lbl{fill:var(--muted); font-size:11px; text-anchor:middle}
+
+.pill{font-size:12px; padding:2px 10px; border-radius:8px}
+.pill.green{background:var(--accent-bg); color:var(--accent)}
+.pill.amber{background:#faeeda; color:#854f0b}
+.pill.red{background:var(--danger-bg); color:var(--danger)}
+
 .error{background:var(--danger-bg); color:var(--danger); border-radius:8px; padding:10px 12px; margin-top:16px}
 .status-ok{color:var(--accent)}
 .status-no{color:var(--danger)}

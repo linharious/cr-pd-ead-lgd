@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Batch · Credit Risk Studio{% endblock %}
+{% block content %}
+  <h1>Batch scoring</h1>
+  <p class="sub">Upload a CSV of applicants (same columns as the training data) to score them all at once.</p>
+
+  <div class="panel">
+    <form hx-post="/batch" hx-target="#result" hx-swap="innerHTML"
+          hx-encoding="multipart/form-data" hx-indicator="#spin">
+      <label>CSV file</label>
+      <input type="file" name="file" accept=".csv" required>
+      <button type="submit">Score file <span id="spin" class="htmx-indicator">…</span></button>
+    </form>
+
+    <div id="result" class="result"></div>
+  </div>
+{% endblock %}

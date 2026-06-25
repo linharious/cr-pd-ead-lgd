@@ -55,6 +55,7 @@ def train(data_path, out_root="models", version=None):
         "ead_model": ead_model,
         "lgd_features": lgd_features,
         "feature_medians": feature_medians,
+        "cutoffs": metrics["df_cutoffs"],
     }
     meta = {
         "pd_auroc": round(float(metrics["auroc"]), 4),

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Downloads · Credit Risk Studio{% endblock %}
+{% block content %}
+  <h1>Downloads</h1>
+  <p class="sub">Scored result files.</p>
+
+  <div class="panel">
+    {% if files %}
+      <table class="tbl">
+        <thead><tr><th>File</th><th></th></tr></thead>
+        <tbody>
+          {% for f in files %}
+            <tr><td>{{ f }}</td><td style="text-align:right"><a href="/download/{{ f }}">Download</a></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="status-no">No result files yet. Run a batch scoring first.</p>
+    {% endif %}
+  </div>
+{% endblock %}

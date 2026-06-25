@@ -34,7 +34,7 @@ from .lgd_ead import (
 from .expected_loss import compute_expected_loss
 from .monitoring import run_monitoring, psi_from_csvs, compute_psi
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "preprocessing", "pd_model", "lgd_ead", "expected_loss", "monitoring",
